@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FOMO Guard</title>
-    <link rel="stylesheet" href="./styles.css?v=20260504-final" />
+    <link rel="stylesheet" href="./styles.css?v=20260505-layout" />
   </head>
   <body>
     <div class="site-bg"></div>
@@ -157,17 +157,17 @@
           <button class="service-rail-card scroll-trigger" data-scroll="dashboard" type="button">
             <span class="mini-label">빠른 진단</span>
             <strong>포트폴리오 유형 확인</strong>
-            <p>현재 구조가 균형형인지 추종형인지 먼저 확인합니다.</p>
+            <p>지금 구조가 전략형인지 추종형인지 먼저 읽습니다.</p>
           </button>
           <button class="service-rail-card scroll-trigger" data-scroll="signals" type="button">
             <span class="mini-label">핵심 신호</span>
             <strong>FOMO 비중 점검</strong>
-            <p>후행 편입, 성과 추종, 섹터 쏠림을 분해합니다.</p>
+            <p>후행 편입과 성과 추종이 얼마나 쌓였는지 봅니다.</p>
           </button>
           <button class="service-rail-card scroll-trigger" data-scroll="comparison" type="button">
             <span class="mini-label">기준 비교</span>
             <strong>편중 분석</strong>
-            <p>균형형 기준 포트폴리오와의 차이를 바로 확인합니다.</p>
+            <p>균형형 기준 대비 지금 비중이 얼마나 벗어났는지 확인합니다.</p>
           </button>
           <button class="service-rail-card scroll-trigger" data-scroll="data-room" type="button">
             <span class="mini-label">업로드 준비</span>
@@ -177,24 +177,41 @@
         </div>
       </section>
 
-      <section class="trust-rail">
-        <div class="trust-rail-grid">
-          <div class="trust-item">
-            <strong>샘플 체험 가능</strong>
-            <span>샘플 데이터와 CSV만으로 바로 확인</span>
+      <section class="region-rail">
+        <div class="section-headline section-headline-compact">
+          <div>
+            <p class="section-kicker">국내/해외 분리 분석</p>
+            <h2>국내 주식을 먼저 보고, 해외 자산은 분리해서 읽습니다</h2>
           </div>
-          <div class="trust-item">
-            <strong>종목 추천 없음</strong>
-            <span>점검 가이드와 해석만 제공합니다</span>
-          </div>
-          <div class="trust-item">
-            <strong>한국 투자자 중심</strong>
-            <span>국내 투자자 FOMO 패턴 해석에 집중</span>
-          </div>
-          <div class="trust-item">
-            <strong>시간 기반 진단</strong>
-            <span>매수 시점이 있으면 더 정밀하게 읽습니다</span>
-          </div>
+        </div>
+        <div class="compact-part-grid">
+          <article class="market-scope-card market-scope-card-domestic">
+            <div class="panel-mini-head">
+              <span class="mini-label">국내 주식 우선 분석</span>
+              <strong id="landing-domestic-share">-</strong>
+            </div>
+            <p id="landing-domestic-copy" class="market-scope-copy">국내 주식 비중과 국내 상위 섹터부터 읽습니다.</p>
+            <div class="market-scope-tags">
+              <span>코스피/코스닥</span>
+              <span>테마 쏠림</span>
+              <span>개인투자자 FOMO</span>
+            </div>
+            <button class="scope-button" type="button" data-region-quick="domestic">국내 주식 먼저 보기</button>
+          </article>
+
+          <article class="market-scope-card market-scope-card-overseas">
+            <div class="panel-mini-head">
+              <span class="mini-label">해외 자산 분리 보기</span>
+              <strong id="landing-overseas-share">-</strong>
+            </div>
+            <p id="landing-overseas-copy" class="market-scope-copy">해외 자산은 성장 보조축인지, 별도 추종 구간인지 분리합니다.</p>
+            <div class="market-scope-tags">
+              <span>나스닥/ETF</span>
+              <span>빅테크 편중</span>
+              <span>분산 효과</span>
+            </div>
+            <button class="scope-button" type="button" data-region-quick="overseas">해외 자산 따로 보기</button>
+          </article>
         </div>
       </section>
 
@@ -209,22 +226,22 @@
           <article class="analysis-standard-card">
             <span class="mini-label">1단계</span>
             <strong>포트폴리오 유형을 먼저 분류</strong>
-            <p>균형형인지, 급등 추종형인지, 강세 섹터 집중형인지부터 구조적으로 읽습니다.</p>
+            <p>균형형인지, 급등 추종형인지, 강세 섹터 집중형인지 먼저 구분합니다.</p>
           </article>
           <article class="analysis-standard-card">
             <span class="mini-label">2단계</span>
             <strong>FOMO 점수를 신호별로 분해</strong>
-            <p>후행 편입, 성과 추종, 섹터 쏠림, 집중도, 변동성을 따로 본 뒤 합산합니다.</p>
+            <p>후행 편입, 성과 추종, 섹터 쏠림, 집중도, 변동성을 따로 읽습니다.</p>
           </article>
           <article class="analysis-standard-card">
             <span class="mini-label">비교 기준</span>
             <strong>균형형 기준 포트폴리오와 대조</strong>
-            <p>내 비중이 시장 흐름을 따라 과해졌는지 섹터 편차와 상위 자산 비중으로 확인합니다.</p>
+            <p>내 비중이 과해졌는지 섹터 편차와 상위 자산 비중으로 비교합니다.</p>
           </article>
           <article class="analysis-standard-card">
             <span class="mini-label">해석 원칙</span>
             <strong>종목 추천 없이 점검만 제공합니다</strong>
-            <p>매수·매도 추천은 하지 않고, 현재 구조가 전략인지 추종인지 판단 보조만 제공합니다.</p>
+            <p>매수·매도 추천은 하지 않고, 현재 구조가 전략인지 추종인지 해석만 제공합니다.</p>
           </article>
         </div>
       </section>
@@ -430,8 +447,8 @@
               <h2>보유 구조를 확인합니다</h2>
             </div>
             <div class="region-switcher" id="region-tab-group">
-              <button class="region-tab is-active" type="button" data-region-view="all">전체</button>
-              <button class="region-tab" type="button" data-region-view="domestic">국내 주식</button>
+              <button class="region-tab" type="button" data-region-view="all">전체</button>
+              <button class="region-tab is-active" type="button" data-region-view="domestic">국내 주식</button>
               <button class="region-tab" type="button" data-region-view="overseas">해외 자산</button>
             </div>
           </div>
@@ -689,6 +706,6 @@
       </footer>
     </div>
 
-    <script src="./app.js?v=20260504-final"></script>
+    <script src="./app.js?v=20260505-layout"></script>
   </body>
 </html>

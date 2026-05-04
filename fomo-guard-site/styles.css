@@ -703,7 +703,7 @@ button,
 }
 
 .service-rail,
-.trust-rail {
+.region-rail {
   margin-top: 14px;
   padding: 14px 18px;
   border-radius: 16px;
@@ -711,7 +711,10 @@ button,
 
 .home-board-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
+  grid-template-areas:
+    "market rail"
+    "regions rules";
   gap: 16px;
   align-items: start;
 }
@@ -722,11 +725,28 @@ button,
 }
 
 .market-overview {
+  grid-area: market;
+}
+
+.service-rail {
+  grid-area: rail;
+}
+
+.region-rail {
+  grid-area: regions;
+}
+
+.analysis-standard {
+  grid-area: rules;
+}
+
+.market-overview {
   background: linear-gradient(180deg, #ffffff, #fdfefe);
   border-color: rgba(19, 48, 79, 0.08);
 }
 
-.analysis-standard {
+.analysis-standard,
+.region-rail {
   background: linear-gradient(180deg, #ffffff, #fdfefe);
   border-color: rgba(19, 48, 79, 0.08);
 }
@@ -753,27 +773,27 @@ button,
 }
 
 .service-rail-grid,
-.trust-rail-grid,
-.analysis-standard-grid {
+.analysis-standard-grid,
+.compact-part-grid {
   display: grid;
   gap: 12px;
 }
 
 .service-rail-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.trust-rail-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .analysis-standard-grid {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compact-part-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .service-rail-card,
-.trust-item,
-.analysis-standard-card {
+.analysis-standard-card,
+.market-scope-card {
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--surface-strong);
@@ -781,11 +801,12 @@ button,
 }
 
 .service-rail-card {
-  text-align: center;
+  text-align: left;
   border-top: 0;
   border-left: 1px solid rgba(255, 255, 255, 0.12);
   background: transparent;
   color: #fff;
+  min-height: 134px;
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
@@ -800,27 +821,10 @@ button,
 }
 
 .service-rail-card strong,
-.trust-item strong {
+.market-scope-card strong {
   display: block;
   font-size: 15px;
   margin: 2px 0 6px;
-}
-
-.trust-item {
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: 8px;
-  border-left: 0;
-}
-
-.trust-item::before {
-  content: "";
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--teal-soft), #f5fcfb);
-  border: 1px solid rgba(15, 124, 114, 0.14);
 }
 
 .analysis-standard-card {
@@ -831,8 +835,8 @@ button,
 }
 
 .service-rail-card p,
-.trust-item span,
-.analysis-standard-card p {
+.analysis-standard-card p,
+.market-scope-copy {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
@@ -852,6 +856,64 @@ button,
 
 .service-rail-card p {
   color: rgba(255, 255, 255, 0.78);
+}
+
+.region-rail {
+  padding: 16px 18px;
+}
+
+.market-scope-card {
+  display: grid;
+  gap: 12px;
+  min-height: 220px;
+  padding: 16px;
+}
+
+.market-scope-card-domestic {
+  border-top: 3px solid var(--teal);
+  background: linear-gradient(180deg, #f5fbfa, #ffffff);
+}
+
+.market-scope-card-overseas {
+  border-top: 3px solid var(--navy);
+  background: linear-gradient(180deg, #f7faff, #ffffff);
+}
+
+.market-scope-card strong {
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+}
+
+.market-scope-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.market-scope-tags span {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #f1f5fa;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.scope-button {
+  margin-top: auto;
+  width: fit-content;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--navy), #1b476f);
+  color: #fff;
+}
+
+.market-scope-card-domestic .scope-button {
+  background: linear-gradient(135deg, var(--teal), #168b7f);
 }
 
 .market-grid-wide {
@@ -1816,8 +1878,8 @@ code {
 @media (max-width: 1180px) {
   .market-grid-wide,
   .service-rail-grid,
-  .trust-rail-grid,
   .analysis-standard-grid,
+  .compact-part-grid,
   .situation-grid,
   .preset-showcase,
   .quick-overview-grid,
@@ -1856,7 +1918,6 @@ code {
 @media (max-width: 820px) {
   .market-grid-wide,
   .service-rail-grid,
-  .trust-rail-grid,
   .analysis-standard-grid,
   .situation-grid,
   .preset-showcase,

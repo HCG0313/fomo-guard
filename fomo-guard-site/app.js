@@ -128,6 +128,10 @@ const refs = {
   heroHookCopy: document.getElementById("hero-hook-copy"),
   heroKpiGrid: document.getElementById("hero-kpi-grid"),
   heroDriverList: document.getElementById("hero-driver-list"),
+  landingDomesticShare: document.getElementById("landing-domestic-share"),
+  landingDomesticCopy: document.getElementById("landing-domestic-copy"),
+  landingOverseasShare: document.getElementById("landing-overseas-share"),
+  landingOverseasCopy: document.getElementById("landing-overseas-copy"),
   datasetMeta: document.getElementById("dataset-meta"),
   analysisTabButtons: document.querySelectorAll("[data-analysis-view]"),
   analysisViews: document.querySelectorAll("[data-analysis-panel]"),
@@ -175,6 +179,7 @@ const refs = {
   comparisonTableBody: document.getElementById("comparison-table-body"),
   insightsGrid: document.getElementById("insights-grid"),
   playbookGrid: document.getElementById("playbook-grid"),
+  quickRegionButtons: document.querySelectorAll("[data-region-quick]"),
 };
 
 init();
@@ -260,6 +265,19 @@ function bindEvents() {
       if (currentAnalysis) {
         renderRegionView(currentAnalysis, activeRegionView);
       }
+    });
+  });
+
+  refs.quickRegionButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeRegionView = button.dataset.regionQuick;
+      refs.regionTabs.forEach((tab) => {
+        tab.classList.toggle("is-active", tab.dataset.regionView === activeRegionView);
+      });
+      if (currentAnalysis) {
+        renderRegionView(currentAnalysis, activeRegionView);
+      }
+      scrollToSection("portfolio");
     });
   });
 
@@ -1530,6 +1548,7 @@ function renderDashboard(analysis) {
   updateStatus(analysis.statusMessage, statusTone);
   setAnalysisView("summary");
   renderHeroSnapshot(analysis);
+  renderLandingRegionCards(analysis);
   refs.datasetMeta.textContent = `${analysis.label} / ${analysis.diagnosisBasisLabel}`;
   renderClassification(analysis.classification);
   renderGauge(analysis);
@@ -1632,6 +1651,23 @@ function renderHeroSnapshot(analysis) {
       `,
     )
     .join("");
+}
+
+function renderLandingRegionCards(analysis) {
+  const domesticSector = analysis.regionViews.domestic.topSector;
+  const overseasSector = analysis.regionViews.overseas.topSector;
+  const domesticAsset = analysis.regionViews.domestic.topAsset;
+  const overseasAsset = analysis.regionViews.overseas.topAsset;
+
+  refs.landingDomesticShare.textContent = `${formatPercent(analysis.domesticShare)} 비중`;
+  refs.landingDomesticCopy.textContent = domesticSector
+    ? `국내 해석의 중심 섹터는 ${displaySectorName(domesticSector.label)}이고, 핵심 자산은 ${domesticAsset?.label ?? "-"}입니다. 한국 투자자 FOMO는 이 구간에서 먼저 읽습니다.`
+    : "국내 자산 비중이 낮아도 한국 주식 구간의 추종 신호는 별도로 먼저 확인합니다.";
+
+  refs.landingOverseasShare.textContent = `${formatPercent(analysis.overseasShare)} 비중`;
+  refs.landingOverseasCopy.textContent = overseasSector
+    ? `해외 자산은 ${displaySectorName(overseasSector.label)} 중심으로 묶여 있고, 대표 자산은 ${overseasAsset?.label ?? "-"}입니다. 국내 해석과 분리해서 따로 봅니다.`
+    : "해외 자산은 보조축으로 보고, 최종 해석은 국내 주식 구조를 먼저 읽습니다.";
 }
 
 function renderClassification(classification) {
