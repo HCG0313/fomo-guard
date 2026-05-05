@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FOMO Guard</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23117a70'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial,sans-serif' font-size='24' font-weight='700' fill='white'%3EFG%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./styles.css?v=20260505-layout" />
+  </head>
+  <body>
+    <div class="site-bg"></div>
+    <div class="page-shell">
+      <div class="utility-bar">
+        <div class="utility-links">
+          <span>샘플 체험 가능</span>
+          <span>API 키 불필요</span>
+          <span>종목 추천 없음</span>
+          <span>국내/해외 분리 분석</span>
+        </div>
+        <div class="utility-links utility-links-right">
+          <span>대표 시나리오</span>
+          <span>CSV 업로드</span>
+          <span>상세 분석</span>
+        </div>
+      </div>
+
+      <header class="topbar">
+        <div class="brand-block">
+          <span class="brand-mark">FG</span>
+          <div>
+            <p class="eyebrow">FOMO Guard</p>
+            <h1>포트폴리오 행동 기반 리스크 진단</h1>
+          </div>
+        </div>
+        <nav class="top-nav">
+          <button class="nav-tab scroll-trigger" data-scroll="dashboard">진단 개요</button>
+          <button class="nav-tab scroll-trigger" data-scroll="dashboard" data-analysis-target="detail">상세 분석</button>
+          <button class="nav-tab scroll-trigger" data-scroll="portfolio">보유 구조</button>
+          <button class="nav-tab scroll-trigger" data-scroll="comparison">기준 비교</button>
+          <button class="nav-tab scroll-trigger" data-scroll="playbook">점검 가이드</button>
+          <button class="nav-tab scroll-trigger" data-scroll="data-room">입력 안내</button>
+        </nav>
+      </header>
+
+      <section class="hero-finance">
+        <div class="hero-copy">
+          <p class="hero-kicker">한국 투자자 FOMO 진단</p>
+          <h2>최근 수익률이 <span>당신의 판단</span>을 대신하고 있지 않나요?</h2>
+          <p class="hero-summary">
+            포트폴리오를 먼저 분류한 뒤, 추종 매수와 섹터 쏠림을 숫자로 읽습니다.
+          </p>
+          <div class="hero-question-strip">
+            <span class="question-chip">최근 편입 종목이 상위 비중인가?</span>
+            <span class="question-chip">강세 섹터가 전체를 끌고 있나?</span>
+            <span class="question-chip">잘 오른 자산에만 돈이 몰렸나?</span>
+          </div>
+          <div class="hero-actions">
+            <button id="load-primary-sample" class="primary-button">대표 샘플 분석</button>
+            <label class="secondary-button file-trigger" for="csv-input">포트폴리오 CSV 업로드</label>
+            <input id="csv-input" type="file" accept=".csv" hidden />
+          </div>
+          <div class="hero-sub-actions">
+            <a class="hero-link-action" href="./sample_portfolio.csv" download>샘플 CSV 다운로드</a>
+            <button class="hero-link-action scroll-trigger" data-scroll="data-room" type="button">입력 규칙 먼저 보기</button>
+          </div>
+          <div class="panel-mini-head hero-situation-head">
+            <span class="mini-label">상황별 바로가기</span>
+            <strong>바로 시작할 경로를 고르세요</strong>
+          </div>
+          <div id="situation-grid" class="situation-grid">
+            <button class="situation-card" type="button" data-situation="chasing" data-scroll-target="signals">
+              <span class="mini-label">빠른 진입</span>
+              <strong>최근 급등주를 뒤늦게 샀어요</strong>
+              <p>후행 편입과 성과 추종 신호를 먼저 봅니다.</p>
+            </button>
+            <button class="situation-card" type="button" data-situation="sector-heavy" data-scroll-target="comparison">
+              <span class="mini-label">빠른 진입</span>
+              <strong>반도체·AI처럼 한 섹터에 몰렸어요</strong>
+              <p>기준 대비 섹터 편차와 군집 쏠림을 먼저 봅니다.</p>
+            </button>
+            <button class="situation-card" type="button" data-situation="balanced" data-scroll-target="dashboard">
+              <span class="mini-label">빠른 진입</span>
+              <strong>지금 구조가 안정적인지 확인하고 싶어요</strong>
+              <p>포트폴리오 유형과 핵심 숫자를 먼저 읽습니다.</p>
+            </button>
+            <button class="situation-card" type="button" data-situation="upload" data-scroll-target="data-room">
+              <span class="mini-label">빠른 진입</span>
+              <strong>내 CSV로 바로 돌려보고 싶어요</strong>
+              <p>업로드 후 바로 진단 결과로 이동합니다.</p>
+            </button>
+          </div>
+          <div class="panel-mini-head hero-preset-head">
+            <span class="mini-label">대표 시나리오</span>
+            <strong>결과 차이가 크게 보이는 시나리오부터 체험해보세요</strong>
+          </div>
+          <div id="preset-showcase" class="preset-showcase"></div>
+          <div class="hero-actions hero-actions-tight">
+            <button class="preset-button scroll-trigger" data-scroll="dashboard">바로 결과 보기</button>
+          </div>
+        </div>
+
+        <aside class="hero-market-panel">
+          <div class="hero-hook-card">
+            <span class="mini-label">지금 가장 먼저 볼 것</span>
+            <strong>이 포트폴리오는 전략형인가, 추종형인가</strong>
+            <p id="hero-hook-copy">
+              대표 샘플을 기준으로 포트폴리오 구조와 FOMO 비중을 바로 읽을 수 있습니다.
+            </p>
+          </div>
+          <div id="hero-kpi-grid" class="hero-kpi-grid">
+            <article class="hero-kpi-card">
+              <span class="mini-label">포트폴리오 유형</span>
+              <strong>-</strong>
+              <p>구조 분류 중</p>
+            </article>
+            <article class="hero-kpi-card">
+              <span class="mini-label">FOMO 점수</span>
+              <strong>-</strong>
+              <p>행동 리스크 점검 중</p>
+            </article>
+            <article class="hero-kpi-card">
+              <span class="mini-label">최근 급등 자산 비중</span>
+              <strong>-</strong>
+              <p>대표 샘플 기준</p>
+            </article>
+            <article class="hero-kpi-card">
+              <span class="mini-label">최대 섹터 편차</span>
+              <strong>-</strong>
+              <p>기준 대비 확인 중</p>
+            </article>
+          </div>
+          <div class="panel-mini-head hero-driver-head">
+            <span class="mini-label">리스크 기여 상위 종목</span>
+            <strong>어떤 종목이 점수를 끌어올렸는가</strong>
+          </div>
+          <div id="hero-driver-list" class="hero-driver-list">
+            <article class="hero-driver-item">
+              <strong>-</strong>
+              <span>상위 종목 분석 대기</span>
+            </article>
+          </div>
+        </aside>
+      </section>
+
+      <div class="home-board-grid">
+      <section class="market-overview">
+        <div class="section-headline section-headline-compact">
+          <div>
+            <p class="section-kicker">시장 지표</p>
+            <h2>오늘의 시장 흐름</h2>
+          </div>
+        </div>
+        <div id="market-grid" class="market-grid market-grid-wide"></div>
+      </section>
+
+      <section class="service-rail">
+        <div class="service-rail-grid">
+          <button class="service-rail-card scroll-trigger" data-scroll="dashboard" type="button">
+            <span class="mini-label">빠른 진단</span>
+            <strong>포트폴리오 유형 확인</strong>
+            <p>지금 구조가 전략형인지 추종형인지 먼저 읽습니다.</p>
+          </button>
+          <button class="service-rail-card scroll-trigger" data-scroll="signals" type="button">
+            <span class="mini-label">핵심 신호</span>
+            <strong>FOMO 비중 점검</strong>
+            <p>후행 편입과 성과 추종이 얼마나 쌓였는지 봅니다.</p>
+          </button>
+          <button class="service-rail-card scroll-trigger" data-scroll="comparison" type="button">
+            <span class="mini-label">기준 비교</span>
+            <strong>편중 분석</strong>
+            <p>균형형 기준 대비 지금 비중이 얼마나 벗어났는지 확인합니다.</p>
+          </button>
+          <button class="service-rail-card scroll-trigger" data-scroll="data-room" type="button">
+            <span class="mini-label">업로드 준비</span>
+            <strong>CSV 입력 안내</strong>
+            <p>필수 컬럼과 정밀 진단 컬럼을 바로 확인합니다.</p>
+          </button>
+        </div>
+      </section>
+
+      <section class="region-rail">
+        <div class="section-headline section-headline-compact">
+          <div>
+            <p class="section-kicker">국내/해외 분리 분석</p>
+            <h2>국내 주식을 먼저 보고, 해외 자산은 분리해서 읽습니다</h2>
+          </div>
+        </div>
+        <div class="compact-part-grid">
+          <article class="market-scope-card market-scope-card-domestic">
+            <div class="panel-mini-head">
+              <span class="mini-label">국내 주식 우선 분석</span>
+              <strong id="landing-domestic-share">-</strong>
+            </div>
+            <p id="landing-domestic-copy" class="market-scope-copy">국내 주식 비중과 국내 상위 섹터부터 읽습니다.</p>
+            <div class="market-scope-tags">
+              <span>코스피/코스닥</span>
+              <span>테마 쏠림</span>
+              <span>개인투자자 FOMO</span>
+            </div>
+            <button class="scope-button" type="button" data-region-quick="domestic">국내 주식 먼저 보기</button>
+          </article>
+
+          <article class="market-scope-card market-scope-card-overseas">
+            <div class="panel-mini-head">
+              <span class="mini-label">해외 자산 분리 보기</span>
+              <strong id="landing-overseas-share">-</strong>
+            </div>
+            <p id="landing-overseas-copy" class="market-scope-copy">해외 자산은 성장 보조축인지, 별도 추종 구간인지 분리합니다.</p>
+            <div class="market-scope-tags">
+              <span>나스닥/ETF</span>
+              <span>빅테크 편중</span>
+              <span>분산 효과</span>
+            </div>
+            <button class="scope-button" type="button" data-region-quick="overseas">해외 자산 따로 보기</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="analysis-standard">
+        <div class="section-headline section-headline-compact">
+          <div>
+            <p class="section-kicker">분석 기준</p>
+            <h2>이 사이트는 이렇게 읽습니다</h2>
+          </div>
+        </div>
+        <div class="analysis-standard-grid">
+          <article class="analysis-standard-card">
+            <span class="mini-label">1단계</span>
+            <strong>포트폴리오 유형을 먼저 분류</strong>
+            <p>균형형인지, 급등 추종형인지, 강세 섹터 집중형인지 먼저 구분합니다.</p>
+          </article>
+          <article class="analysis-standard-card">
+            <span class="mini-label">2단계</span>
+            <strong>FOMO 점수를 신호별로 분해</strong>
+            <p>후행 편입, 성과 추종, 섹터 쏠림, 집중도, 변동성을 따로 읽습니다.</p>
+          </article>
+          <article class="analysis-standard-card">
+            <span class="mini-label">비교 기준</span>
+            <strong>균형형 기준 포트폴리오와 대조</strong>
+            <p>내 비중이 과해졌는지 섹터 편차와 상위 자산 비중으로 비교합니다.</p>
+          </article>
+          <article class="analysis-standard-card">
+            <span class="mini-label">해석 원칙</span>
+            <strong>종목 추천 없이 점검만 제공합니다</strong>
+            <p>매수·매도 추천은 하지 않고, 현재 구조가 전략인지 추종인지 해석만 제공합니다.</p>
+          </article>
+        </div>
+      </section>
+      </div>
+
+      <section class="status-banner" id="status-banner">
+        대표 샘플이 로드되어 있습니다. CSV 업로드 시 결과가 즉시 교체됩니다.
+      </section>
+
+      <main class="dashboard-shell">
+        <section class="panel panel-section" id="dashboard">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">진단 개요</p>
+              <h2>먼저 포트폴리오를 읽습니다</h2>
+            </div>
+            <div id="dataset-meta" class="dataset-meta">대표 샘플 / 시간 정보 기반 진단</div>
+          </div>
+
+          <div class="analysis-switcher">
+            <button class="analysis-tab is-active" type="button" data-analysis-view="summary">핵심 요약</button>
+            <button class="analysis-tab" type="button" data-analysis-view="detail">상세 분석</button>
+          </div>
+
+          <div class="analysis-view is-active" data-analysis-panel="summary">
+            <div class="quick-overview-grid">
+              <article class="classification-card quick-classification-card">
+                <div class="panel-mini-head">
+                  <span class="mini-label">포트폴리오 유형</span>
+                  <strong id="classification-title">균형형 코어</strong>
+                </div>
+                <span id="classification-badge" class="risk-chip positive">안정형</span>
+                <p id="classification-impact" class="classification-summary">
+                  현재 포트폴리오는 구조상 분산이 보이기 때문에, 행동 리스크보다 구조 해석이 먼저입니다.
+                </p>
+                <button class="link-button" type="button" data-analysis-view="detail">상세 분석 보기</button>
+              </article>
+
+              <article class="verdict-banner">
+                <span class="mini-label">즉시 결론</span>
+                <strong id="verdict-title">포트폴리오를 분석 중입니다</strong>
+                <p id="verdict-body">샘플 또는 CSV 데이터를 기준으로 구조와 행동 신호를 읽습니다.</p>
+              </article>
+            </div>
+
+            <div id="summary-grid" class="summary-grid"></div>
+
+            <div id="summary-takeaways" class="summary-takeaways"></div>
+
+            <div id="impact-strip" class="impact-strip"></div>
+
+            <article class="subpanel rules-panel">
+              <div class="panel-mini-head">
+                <span class="mini-label">Skills.md 적용 규칙</span>
+                <strong>어떤 기준으로 이 결과를 만들었는가</strong>
+              </div>
+              <div id="rules-visual-grid" class="rules-visual-grid"></div>
+            </article>
+          </div>
+
+          <div class="analysis-view" data-analysis-panel="detail">
+            <div class="executive-grid detail-executive-grid">
+              <aside class="research-sidebar">
+                <article class="gauge-card">
+                  <div id="gauge-ring" class="gauge-ring">
+                    <div class="gauge-center">
+                      <span>FOMO 점수</span>
+                      <strong id="gauge-score">0</strong>
+                      <em id="gauge-level">낮음</em>
+                    </div>
+                  </div>
+                  <p id="gauge-caption" class="gauge-caption">
+                    현재 포트폴리오가 최근 시장 분위기와 단기 성과에 얼마나 흔들리고 있는지를 한눈에 보여줍니다.
+                  </p>
+                </article>
+
+                <article class="mix-card">
+                  <div class="panel-mini-head">
+                    <span class="mini-label">FOMO 비중</span>
+                    <strong>위험 구성</strong>
+                  </div>
+                  <div class="mix-layout">
+                    <div id="fomo-mix-donut" class="mix-donut">
+                      <div class="mix-center">
+                        <span>위험 점수</span>
+                        <strong id="fomo-mix-score">0</strong>
+                      </div>
+                    </div>
+                    <div id="fomo-mix-legend" class="legend-list"></div>
+                  </div>
+                </article>
+
+                <article class="side-card">
+                  <span class="mini-label">진단 기준</span>
+                  <div id="research-meta" class="meta-list"></div>
+                </article>
+
+                <article class="side-card">
+                  <span class="mini-label">데이터 품질 메모</span>
+                  <div id="data-quality" class="meta-list"></div>
+                </article>
+              </aside>
+
+              <div class="executive-main">
+                <article class="lead-insight-card">
+                  <div class="panel-mini-head">
+                    <span class="mini-label">상세 분류</span>
+                    <strong>왜 이런 유형으로 읽혔는가</strong>
+                  </div>
+                  <p id="classification-summary" class="classification-summary">
+                    현재 포트폴리오는 구조상 분산이 보이기 때문에, 행동 리스크보다 구조 해석이 먼저입니다.
+                  </p>
+                  <div id="classification-traits" class="classification-traits"></div>
+                </article>
+
+                <article class="regime-card">
+                  <div class="panel-mini-head">
+                    <span class="mini-label">핵심 메모</span>
+                    <strong>빠른 읽기 노트</strong>
+                  </div>
+                  <div id="regime-grid" class="regime-grid"></div>
+                </article>
+
+                <div class="executive-subgrid detail-note-grid">
+                  <article class="lead-insight-card">
+                    <div class="panel-mini-head">
+                      <span class="mini-label">구조 해석</span>
+                      <strong>이 포트폴리오는 어떤 유형인가?</strong>
+                    </div>
+                    <div id="classification-brief" class="lead-insight"></div>
+                  </article>
+
+                  <article class="lead-insight-card">
+                    <div class="panel-mini-head">
+                      <span class="mini-label">행동 해석</span>
+                      <strong>가장 먼저 볼 신호는 무엇인가?</strong>
+                    </div>
+                    <div id="lead-insight" class="lead-insight"></div>
+                  </article>
+                </div>
+              </div>
+            </div>
+
+            <article class="detail-story-panel">
+              <div class="panel-mini-head">
+                <span class="mini-label">상세 읽기</span>
+                <strong>현재 상태와 이어질 가능성을 순서대로 봅니다</strong>
+              </div>
+              <div id="detail-story-grid" class="detail-story-grid"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel panel-section" id="signals">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">신호 프레임</p>
+              <h2>FOMO 신호를 분해합니다</h2>
+            </div>
+          </div>
+
+          <div id="diagnosis-grid" class="diagnosis-grid"></div>
+
+          <div class="two-column-stack">
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">행동 읽기</span>
+                <strong>행동 해석</strong>
+              </div>
+              <div id="behavior-grid" class="behavior-grid"></div>
+            </article>
+
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">점수 구성</span>
+                <strong>점수가 만들어지는 방식</strong>
+              </div>
+              <div id="score-breakdown" class="bar-list"></div>
+            </article>
+          </div>
+
+          <article class="subpanel">
+            <div class="panel-mini-head">
+              <span class="mini-label">상위 리스크 종목</span>
+              <strong>점수에 가장 크게 기여한 종목</strong>
+            </div>
+            <div id="risk-driver-grid" class="risk-driver-grid"></div>
+          </article>
+
+          <article class="subpanel">
+            <div class="panel-mini-head">
+              <span class="mini-label">형성 타임라인</span>
+              <strong>포트폴리오 형성 흐름</strong>
+            </div>
+            <div id="timeline-cards" class="timeline-grid"></div>
+          </article>
+        </section>
+
+        <section class="panel panel-section" id="portfolio">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">포트폴리오 구조</p>
+              <h2>보유 구조를 확인합니다</h2>
+            </div>
+            <div class="region-switcher" id="region-tab-group">
+              <button class="region-tab" type="button" data-region-view="all">전체</button>
+              <button class="region-tab is-active" type="button" data-region-view="domestic">국내 주식</button>
+              <button class="region-tab" type="button" data-region-view="overseas">해외 자산</button>
+            </div>
+          </div>
+
+          <div id="region-focus-grid" class="region-focus-grid"></div>
+
+          <div id="region-summary-grid" class="region-summary-grid"></div>
+
+          <div class="charts-grid">
+            <article class="chart-card">
+              <div class="card-header">
+                <h3>자산 비중</h3>
+                <span>보유 자산 구성</span>
+              </div>
+              <div class="donut-layout">
+                <div id="asset-donut" class="donut-chart">
+                  <div class="donut-center">
+                    <span>종목 수</span>
+                    <strong id="asset-donut-total">0</strong>
+                  </div>
+                </div>
+                <div id="asset-legend" class="legend-list"></div>
+              </div>
+            </article>
+
+            <article class="chart-card">
+              <div class="card-header">
+                <h3>섹터 비중</h3>
+                <span>섹터 노출도</span>
+              </div>
+              <div id="sector-bars" class="bar-list"></div>
+            </article>
+
+            <article class="chart-card chart-card-full">
+              <div class="card-header">
+                <h3>수익률 구조</h3>
+                <span>자산별 수익률</span>
+              </div>
+              <div id="return-bars" class="bar-list"></div>
+            </article>
+          </div>
+
+          <div class="two-column-stack">
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">신호 매트릭스</span>
+                <strong>보유 자산별 신호 매트릭스</strong>
+              </div>
+              <div class="table-wrap">
+                <table class="holdings-table compact-table">
+                  <thead>
+                    <tr>
+                      <th>자산</th>
+                      <th>비중</th>
+                      <th>7일 수익률</th>
+                      <th>최근 편입</th>
+                      <th>급등 자산</th>
+                      <th>비중 증가</th>
+                    </tr>
+                  </thead>
+                  <tbody id="signal-matrix-body"></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">보유 종목</span>
+                <strong>상세 보유 테이블</strong>
+              </div>
+              <div class="table-wrap">
+                <table class="holdings-table">
+                  <thead>
+                    <tr>
+                      <th>자산</th>
+                      <th>유형</th>
+                      <th>섹터</th>
+                      <th>비중</th>
+                      <th>수익률</th>
+                      <th>7일</th>
+                      <th>매수일</th>
+                    </tr>
+                  </thead>
+                  <tbody id="holdings-body"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel panel-section" id="comparison">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">기준 비교</p>
+              <h2>기준과 비교합니다</h2>
+            </div>
+            <div id="region-context-label" class="dataset-meta">전체 기준</div>
+          </div>
+
+          <div class="two-column-stack">
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">섹터 편차</span>
+                <strong>기준 대비 섹터 차이</strong>
+              </div>
+              <div id="comparison-bars" class="bar-list"></div>
+            </article>
+
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">상대 비교</span>
+                <strong>비교 테이블</strong>
+              </div>
+              <div class="table-wrap">
+                <table class="holdings-table compact-table">
+                  <thead>
+                    <tr>
+                      <th>섹터</th>
+                      <th>현재 비중</th>
+                      <th>기준 비중</th>
+                      <th>차이</th>
+                      <th>상태</th>
+                    </tr>
+                  </thead>
+                  <tbody id="comparison-table-body"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel panel-section" id="playbook">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">해석과 가이드</p>
+              <h2>피드백을 정리합니다</h2>
+            </div>
+          </div>
+
+          <div id="insights-grid" class="insights-grid"></div>
+
+          <div class="two-column-stack">
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">점검 체크리스트</span>
+                <strong>지금 확인해야 할 것</strong>
+              </div>
+              <div id="playbook-grid" class="playbook-grid"></div>
+            </article>
+
+            <article class="subpanel">
+              <div class="panel-mini-head">
+                <span class="mini-label">방법론</span>
+                <strong>진단 요약</strong>
+              </div>
+              <div class="methodology-list">
+                <div class="methodology-item">
+                  <strong>포트폴리오 분류</strong>
+                  <p>행동 해석보다 먼저 현재 구조를 읽어, 성격을 먼저 분류합니다.</p>
+                </div>
+                <div class="methodology-item">
+                  <strong>후행 편입 위험</strong>
+                  <p>최근 매수 시점, 단기 급등 여부, 상위 비중 여부를 함께 확인합니다.</p>
+                </div>
+                <div class="methodology-item">
+                  <strong>성과 추종 위험</strong>
+                  <p>최근 성과가 좋았던 자산에 실제로 비중이 더 실렸는지 확인합니다.</p>
+                </div>
+                <div class="methodology-item">
+                  <strong>섹터 쏠림 위험</strong>
+                  <p>강세 섹터 편중을 균형형 기준 포트폴리오와 비교해서 해석합니다.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel panel-section" id="data-room">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">입력 데이터 안내</p>
+              <h2>업로드 규칙</h2>
+            </div>
+          </div>
+
+          <div class="upload-guide-grid">
+            <article class="guide-card">
+              <span class="mini-label">필수 컬럼</span>
+              <p><code>asset_name</code>, <code>asset_type</code>, <code>sector</code>, <code>buy_price</code>, <code>current_price</code>, <code>quantity</code></p>
+            </article>
+            <article class="guide-card">
+              <span class="mini-label">정밀 진단 컬럼</span>
+              <p><code>purchase_date</code>, <code>recent_7d_return</code>, <code>recent_30d_return</code>, <code>recent_30d_volatility</code></p>
+            </article>
+            <article class="guide-card">
+              <span class="mini-label">권장 컬럼</span>
+              <p><code>weight_change_7d</code>, <code>weight_change_30d</code>가 있으면 시간 기반 해석 정확도가 올라갑니다.</p>
+            </article>
+          </div>
+
+          <div class="subpanel">
+            <div class="panel-mini-head">
+              <span class="mini-label">스키마 미리보기</span>
+              <strong>컬럼 구조</strong>
+            </div>
+            <div class="table-wrap">
+              <table class="holdings-table compact-table">
+                <thead>
+                  <tr>
+                    <th>필드</th>
+                    <th>설명</th>
+                    <th>구분</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>asset_name</td><td>자산명</td><td>필수</td></tr>
+                  <tr><td>asset_type</td><td>자산 유형</td><td>필수</td></tr>
+                  <tr><td>sector</td><td>섹터 분류</td><td>필수</td></tr>
+                  <tr><td>buy_price</td><td>평균 매수가</td><td>필수</td></tr>
+                  <tr><td>current_price</td><td>현재가</td><td>필수</td></tr>
+                  <tr><td>quantity</td><td>보유 수량</td><td>필수</td></tr>
+                  <tr><td>purchase_date</td><td>매수일</td><td>정밀 진단</td></tr>
+                  <tr><td>recent_7d_return</td><td>최근 7일 수익률</td><td>정밀 진단</td></tr>
+                  <tr><td>recent_30d_volatility</td><td>최근 30일 변동성</td><td>정밀 진단</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="upload-cta">
+            <label class="primary-button file-trigger" for="csv-input">CSV 업로드 후 분석 시작</label>
+            <a class="secondary-button" href="./sample_portfolio.csv" download>샘플 CSV 다운로드</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-grid">
+          <div>
+            <p class="mini-label">소개</p>
+            <strong>FOMO Guard 데모</strong>
+            <p>이 사이트는 더미 데이터와 업로드된 CSV만 사용합니다. 별도 API 키 없이 바로 체험할 수 있습니다.</p>
+          </div>
+          <div>
+            <p class="mini-label">정책</p>
+            <strong>종목 추천 서비스가 아닙니다</strong>
+            <p>모든 출력은 진단 해석, 편중 점검, 행동 가이드에 한정되며 매수·매도 추천을 하지 않습니다.</p>
+          </div>
+          <div>
+            <p class="mini-label">심사 대응</p>
+            <strong>바로 확인 가능한 구조</strong>
+            <p>대표 샘플 시나리오와 CSV 업로드 기능이 포함되어 있어 심사자가 즉시 기능을 확인할 수 있습니다.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="./app.js?v=20260505-layout"></script>
+  </body>
+</html>

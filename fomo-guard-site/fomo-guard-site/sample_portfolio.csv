@@ -1,0 +1,6 @@
+asset_name,asset_type,sector,market,buy_price,current_price,quantity,purchase_date,recent_7d_return,recent_30d_return,recent_30d_volatility,weight_change_7d,weight_change_30d
+SK하이닉스,Stock,Semiconductor,KR,186000,224000,8,2026-04-25,13.4,22.1,17.4,5.1,7.6
+한미반도체,Stock,Semiconductor,KR,111000,139000,11,2026-04-29,18.8,27.4,19.8,4.9,6.8
+TIGER 미국필라델피아반도체나스닥,ETF,Semiconductor,KR,18350,20140,95,2026-04-18,9.9,15.4,12.2,2.6,4.0
+TSLA,Stock,Automotive,US,210,248,6,2026-04-26,14.7,19.5,16.3,4.2,5.3
+QQQ,ETF,Technology,US,430,446,5,2026-03-12,3.1,7.2,6.4,0.8,1.4
