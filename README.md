@@ -7,7 +7,8 @@ FOMO Guard는 특정 종목을 추천하거나 매수, 매도 판단을 대신�
 ## 바로 보기
 
 - Live Demo: https://fomo-guard.netlify.app/
-- Website Source: omo-guard-site/`n- 파트 예측 개발 일지: [PART_PREDICTION.md](PART_PREDICTION.md)
+- Website Source: `fomo-guard-site/`
+- 파트 예측 개발 일지: [PART_PREDICTION.md](PART_PREDICTION.md)
 
 ## 프로젝트 한 줄 요약
 
