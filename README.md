@@ -29,7 +29,6 @@ FOMO Guard는 특정 종목을 추천하거나 매수, 매도 판단을 대신�
 - [분석 처리 시퀀스](#분석-처리-시퀀스)
 - [기술 선택과 이유](#기술-선택과-이유)
 - [개발 과정과 시행착오](#개발-과정과-시행착오)
-- [포트폴리오 문서 패키지](#포트폴리오-문서-패키지)
 - [데이터 입력 형식](#데이터-입력-형식)
 - [실행 방법](#실행-방법)
 - [저장소 구조](#저장소-구조)
@@ -138,17 +137,6 @@ sequenceDiagram
 | 제출 안정성 | 외부 금융 API를 쓰면 데모가 불안정해질 수 있었음 | 샘플 CSV와 클라이언트 분석 중심의 정적 웹앱으로 구현 |
 | 최종 검증 | 규칙 문서와 실제 점수 산식이 일부 어긋날 수 있었음 | 최종 점검에서 FOMO 점수 항목과 인사이트 노출 개수를 규칙서 기준에 맞게 조정 |
 
-## 포트폴리오 문서 패키지
-
-취업 포트폴리오 관점에서 구현 결과뿐 아니라 의사결정 과정, 구조, 문제 해결, 회고, 면접 대응까지 확인할 수 있도록 `docs/` 폴더를 별도로 구성했습니다.
-
-| 문서 | 목적 |
-| --- | --- |
-| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | 서비스 구조, 데이터 흐름, 모듈 역할, 기술 선택 이유 |
-| [`docs/TROUBLESHOOTING.md`](./docs/TROUBLESHOOTING.md) | 개발 중 겪은 문제와 해결 과정 |
-| [`docs/RETROSPECTIVE.md`](./docs/RETROSPECTIVE.md) | 프로젝트 회고, 배운 점, 한계와 개선 방향 |
-| [`docs/INTERVIEW.md`](./docs/INTERVIEW.md) | 30초 소개, 1분 소개, 예상 면접 질문과 답변 |
-
 ## 데이터 입력 형식
 
 CSV 첫 줄은 헤더이며, 아래 필드를 기준으로 분석합니다.
@@ -211,12 +199,6 @@ fomo-guard/
     sample_portfolio.csv
     serve-site.js
     serve-site.ps1
-  docs/
-    README.md
-    ARCHITECTURE.md
-    TROUBLESHOOTING.md
-    RETROSPECTIVE.md
-    INTERVIEW.md
   README.md
   FOMO Guard.pdf
   FOMO Guard Skills.pdf
